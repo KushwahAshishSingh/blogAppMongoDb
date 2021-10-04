@@ -1,21 +1,14 @@
-import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+require("dotenv").config();
+const express = require("express");
+const app = express();
+const userRouter = require("./users/user.router");
+const bodyparser = require("body-parser");
 
-export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
-}
+app.use(bodyparser.urlencoded({ extended: true }));
+app.use("/user", userRouter);
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
+const port = 3000;
+// error in listening process.env.APP_PORT from .env
+app.listen(port, () => {
+  console.log("server running on the port:" + port);
 });
